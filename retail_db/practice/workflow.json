@@ -1,0 +1,125 @@
+{
+  "name": "New Job 2024-04-10 21:34:58",
+  "email_notifications": {
+    "on_start": [
+      "harshithkumar276@gmail.com"
+    ],
+    "on_success": [
+      "harshithkumar276@gmail.com"
+    ],
+    "on_failure": [
+      "harshithkumar276@gmail.com"
+    ],
+    "no_alert_for_skipped_runs": true
+  },
+  "webhook_notifications": {
+    "on_start": [
+      {
+        "id": "e62a7a6b-2e17-4bd1-960a-72915a61e93c"
+      }
+    ],
+    "on_success": [
+      {
+        "id": "e62a7a6b-2e17-4bd1-960a-72915a61e93c"
+      }
+    ],
+    "on_failure": [
+      {
+        "id": "e62a7a6b-2e17-4bd1-960a-72915a61e93c"
+      }
+    ]
+  },
+  "notification_settings": {
+    "no_alert_for_skipped_runs": true,
+    "no_alert_for_canceled_runs": true
+  },
+  "timeout_seconds": 0,
+  "schedule": {
+    "quartz_cron_expression": "21 30 20 * * ?",
+    "timezone_id": "Asia/Kolkata",
+    "pause_status": "UNPAUSED"
+  },
+  "max_concurrent_runs": 1,
+  "tasks": [
+    {
+      "task_key": "Convert_CSV_to_Parquet",
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Users/harshasgeme@gmail.com/File format converter",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0410-061719-3uzmgil1",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "notification_settings": {
+        "no_alert_for_skipped_runs": false,
+        "no_alert_for_canceled_runs": false,
+        "alert_on_last_attempt": false
+      },
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Partiton_Orders",
+      "depends_on": [
+        {
+          "task_key": "Convert_CSV_to_Parquet"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Users/harshasgeme@gmail.com/Partition Orders",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0410-061719-3uzmgil1",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "notification_settings": {
+        "no_alert_for_skipped_runs": false,
+        "no_alert_for_canceled_runs": false,
+        "alert_on_last_attempt": false
+      },
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Calculate_Monthly_Revenue",
+      "depends_on": [
+        {
+          "task_key": "Partiton_Orders"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Users/harshasgeme@gmail.com/Calculate Monthly Revenue",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0410-061719-3uzmgil1",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "notification_settings": {
+        "no_alert_for_skipped_runs": false,
+        "no_alert_for_canceled_runs": false,
+        "alert_on_last_attempt": false
+      },
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "New_Customers_by_Month",
+      "depends_on": [
+        {
+          "task_key": "Partiton_Orders"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Users/harshasgeme@gmail.com/New customers by month",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0410-061719-3uzmgil1",
+      "timeout_seconds": 0,
+      "email_notifications": {}
+    }
+  ],
+  "run_as": {
+    "user_name": "harshasgeme@gmail.com"
+  }
+}

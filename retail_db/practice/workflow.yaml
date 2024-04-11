@@ -1,0 +1,53 @@
+resources:
+  jobs:
+    New_Job_2024_04_10_21_34_58:
+      name: New Job 2024-04-10 21:34:58
+      email_notifications:
+        on_start:
+          - harshithkumar276@gmail.com
+        on_success:
+          - harshithkumar276@gmail.com
+        on_failure:
+          - harshithkumar276@gmail.com
+        no_alert_for_skipped_runs: true
+      webhook_notifications:
+        on_start:
+          - id: e62a7a6b-2e17-4bd1-960a-72915a61e93c
+        on_success:
+          - id: e62a7a6b-2e17-4bd1-960a-72915a61e93c
+        on_failure:
+          - id: e62a7a6b-2e17-4bd1-960a-72915a61e93c
+      notification_settings:
+        no_alert_for_skipped_runs: true
+        no_alert_for_canceled_runs: true
+      schedule:
+        quartz_cron_expression: 21 30 20 * * ?
+        timezone_id: Asia/Kolkata
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: Convert_CSV_to_Parquet
+          notebook_task:
+            notebook_path: /Users/harshasgeme@gmail.com/File format converter
+            source: WORKSPACE
+          existing_cluster_id: 0410-061719-3uzmgil1
+        - task_key: Partiton_Orders
+          depends_on:
+            - task_key: Convert_CSV_to_Parquet
+          notebook_task:
+            notebook_path: /Users/harshasgeme@gmail.com/Partition Orders
+            source: WORKSPACE
+          existing_cluster_id: 0410-061719-3uzmgil1
+        - task_key: Calculate_Monthly_Revenue
+          depends_on:
+            - task_key: Partiton_Orders
+          notebook_task:
+            notebook_path: /Users/harshasgeme@gmail.com/Calculate Monthly Revenue
+            source: WORKSPACE
+          existing_cluster_id: 0410-061719-3uzmgil1
+        - task_key: New_Customers_by_Month
+          depends_on:
+            - task_key: Partiton_Orders
+          notebook_task:
+            notebook_path: /Users/harshasgeme@gmail.com/New customers by month
+            source: WORKSPACE
+          existing_cluster_id: 0410-061719-3uzmgil1
